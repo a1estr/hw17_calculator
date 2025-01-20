@@ -2,40 +2,77 @@ import pytest
 from app.app import add, subtract, multiply, divide
 
 
-def test_add():
+@pytest.mark.parametrize(
+    "value1, value2, expected_result",
+    [
+        (2, 3, 5),
+        (-1, 1, 0),
+        (1, -2, -1),
+        (0, 0, 0)
+    ]
+)
+def test_add(value1, value2, expected_result):
     """Тестирует функцию сложения."""
-    assert add(2, 3) == 5
-    assert add(-1, 1) == 0
-    assert add(0, 0) == 0
+    assert add(value1, value2) == expected_result
 
 
-def test_divide():
+@pytest.mark.parametrize(
+    "value1, value2, expected_result",
+    [
+        (10, 2, 5),
+        (9, 3, 3),
+        (5, 2, 2.5)
+    ]
+)
+def test_divide(value1, value2, expected_result):
     """Тестирует функцию деления."""
-    assert divide(10, 2) == 5
-    assert divide(9, 3) == 3
+    assert divide(value1, value2) == expected_result
+
+
+@pytest.mark.parametrize(
+    "value1, value2",
+    [
+        (5, 0),
+        (100, 0),
+        (100.5, 0)
+    ]
+)
+def test_divide_invalid(value1, value2):
+    """Тестирует выброс исключения при делении"""
     with pytest.raises(ValueError):
-        divide(5, 0)
+        divide(value1, value2)
 
 
-def test_multiply():
+@pytest.mark.parametrize(
+    "value1, value2, expected_result",
+    [
+        (5, 8, 40),
+        (8, 5, 40),
+        (0, 3, 0),
+        (-5, 8, -40),
+        (5, -8, -40),
+        (-5, -8, 40),
+    ]
+)
+def test_multiply(value1, value2, expected_result):
     """
     Тестирует функцию умножения
     """
-    assert multiply(5, 8) == 40
-    assert multiply(8, 5) == 40
-    assert multiply(0, 3) == 0
-    assert multiply(-5, 8) == -40
-    assert multiply(5, -8) == -40
-    assert multiply(-5, -8) == 40
+    assert multiply(value1, value2) == expected_result
 
 
-def test_subtract():
+@pytest.mark.parametrize(
+    "value1, value2, expected_result",
+    [
+        (10, 7, 3),
+        (5, 11, -6),
+        (-10, 11, -21),
+        (10, -11, 21),
+        (-10, -11, 1)
+    ]
+)
+def test_subtract(value1, value2, expected_result):
     """
     Тестирует функцию вычитания
     """
-    assert subtract(10, 7) == 3
-    assert subtract(5, 11) == -6
-    assert subtract(-10, 11) == -21
-    assert subtract(10, -11) == 21
-    assert subtract(-10, -11) == 1
-
+    assert subtract(value1, value2) == expected_result
